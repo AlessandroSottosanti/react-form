@@ -17,6 +17,11 @@ function App() {
     setTitlePost("");
     setContentPost("");
   }
+
+  const handleDelete = (id) => {
+   setPosts( posts.filter( (post) => post.id !== id) )
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -37,8 +42,11 @@ function App() {
       
       (posts.map((post) => (
         <div className="card" key={post.id}>
-          <div className="card-header">{post.title}</div>
-          <div className="card-body">{post.content}</div>
+          <div className="card-header d-flex justify-content-between">
+            <h2>{post.title}</h2>
+            <button onClick={() => handleDelete(post.id)} className='btn btn-danger'>Delete</button>  
+          </div>
+          <div className="card-body"><p>{post.content}</p></div>
         </div>
       )))
 
