@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 function App() {
 
@@ -8,6 +8,7 @@ function App() {
   const [statePost, setStatePost] = useState("");
   const [authorPost, setAuthorPost] = useState("");
 
+  // Salva post
   const handleSubmit = (event) => {
     event.preventDefault();
     const newPost = {
@@ -23,21 +24,21 @@ function App() {
     setStatePost("");
     setAuthorPost("");
 
-    console.log(posts);
   }
 
+  // Elimina post
   const handleDelete = (id) => {
-    setPosts(posts.filter((post) => post.id !== id))
+    setPosts(posts.filter((post) => post.id !== id));
   }
 
-  const disableSubmitButton = () => {
-    return "disabled";
-  }
+  console.log(posts);
 
   return (
     <>
+      {/* Form posts */}
       <form onSubmit={handleSubmit}>
         <div className='container m-5 d-flex flex-column gap-3'>
+          <h2>Inserisci un nuovo post</h2>
           <label htmlFor="authorPost">Autore Post</label>
           <input className='form-control' type="text" id='authorPost' value={authorPost} onChange={(event) => setAuthorPost(event.target.value)} />
 
@@ -47,28 +48,32 @@ function App() {
           <label htmlFor='contentPost'>Contenuto post</label>
           <textarea className='form-control' type="text-area" id='contentPost' value={contentPost} onChange={(event) => setContentPost(event.target.value)} />
 
-          <select className="form-select" aria-label="Default select example" value={statePost} onChange={(event) => setStatePost(event.target.value) }>
+          <select className="form-select" aria-label="Default select example" value={statePost} onChange={(event) => setStatePost(event.target.value)}>
             <option value="" disabled >Stato del post</option>
             <option value="published">Pubblicato</option>
             <option value="draft">Bozza</option>
           </select>
-          
-          
-          <button type='submit' className={`btn btn-primary ${(!authorPost || !titlePost || !contentPost || !statePost) && 'disabled' }`}>Salva</button>
 
-         
+          <div className="d-flex gap-3">
+          <button type='submit' className={`btn btn-success ${(!authorPost || !titlePost || !contentPost || !statePost) && 'disabled'}`}>Salva</button>
+          <button type='clear' className='btn btn-danger'>Cancella</button>
+          </div>
+          
+
         </div>
       </form>
 
-
+      {/* Lista posts */}
       <div className="container m-5 d-flex flex-column gap-3">
+        <h2>Elenco post</h2>
         {posts.length > 0 ?
 
           (posts.map((post) => (
             post.state === "published" &&
             <div className="card" key={post.id}>
-              <div className="card-header d-flex justify-content-between">
+              <div className="card-header d-flex justify-content-between align-items-center">
                 <h2>{post.title}</h2>
+                <span>{post.author}</span>
                 <button onClick={() => handleDelete(post.id)} className='btn btn-danger'>Delete</button>
               </div>
               <div className="card-body"><p>{post.content}</p></div>
